@@ -54,5 +54,16 @@ namespace HolidayEventApi.Test
             var ex = await Assert.ThrowsExceptionAsync<SystemException>(() => client.GetEvents());
             Assert.AreEqual("MyError!", ex.Message);
         }
+
+        [TestMethod]
+        public async Task TestServerError500()
+        {
+            var client = new MockClient("abc123");
+            MockClient.Handler
+                .When("https://api.apilayer.com/checkiday/events")
+                .Respond(HttpStatusCode.InternalServerError, "application/json", "{}");
+            var ex = await Assert.ThrowsExceptionAsync<SystemException>(() => client.GetEvents());
+            Assert.AreEqual("Internal Server Error", ex.Message);
+        }
     }
 }

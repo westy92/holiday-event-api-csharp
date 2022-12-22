@@ -12,11 +12,6 @@ namespace HolidayEventApi
     {
         private HttpClient client;
         protected virtual HttpClient ClientFactory() => new HttpClient();
-        private static JsonSerializerSettings jsonSettings = new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Include,
-            MissingMemberHandling = MissingMemberHandling.Error,
-        };
 
         public Client(string apiKey) {
             if (String.IsNullOrWhiteSpace(apiKey))
@@ -54,7 +49,7 @@ namespace HolidayEventApi
                 // TODO add rate-limit
                 // TODO convert map to T instead of re-serializing
                 var newJson = JsonConvert.SerializeObject(map);
-                var result = JsonConvert.DeserializeObject<T>(newJson, jsonSettings);
+                var result = JsonConvert.DeserializeObject<T>(newJson);
                 return result;
             } catch {
                 if (response?.IsSuccessStatusCode == true) {
