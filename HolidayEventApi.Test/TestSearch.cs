@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
 using System.Collections.Generic;
+using System.Net;
+using System;
 
 namespace HolidayEventApi.Test
 {
@@ -67,6 +69,44 @@ namespace HolidayEventApi.Test
             });
         }
 
-        // TODO more
+        [TestMethod]
+        public async Task TestSearchQueryTooShort()
+        {
+            var client = new MockClient("abc123");
+            MockClient.Handler
+                .When("https://api.apilayer.com/checkiday/search")
+                .WithExactQueryString(new Dictionary<string,string> {
+                    { "query", "a" },
+                    { "adult", "false" },
+                })
+                .Respond(HttpStatusCode.BadRequest, "application/json", "{'error':'Please enter a longer search term.'}");
+            var ex = await Assert.ThrowsExceptionAsync<SystemException>(() => client.Search("a"));
+            Assert.AreEqual("Please enter a longer search term.", ex.Message);
+        }
+
+        [TestMethod]
+        public async Task TestSearchTooManyResults()
+        {
+            var client = new MockClient("abc123");
+            MockClient.Handler
+                .When("https://api.apilayer.com/checkiday/search")
+                .WithExactQueryString(new Dictionary<string,string> {
+                    { "query", "day" },
+                    { "adult", "false" },
+                })
+                .Respond(HttpStatusCode.BadRequest, "application/json", "{'error':'Too many results returned. Please refine your query.'}");
+            var ex = await Assert.ThrowsExceptionAsync<SystemException>(() => client.Search("day"));
+            Assert.AreEqual("Too many results returned. Please refine your query.", ex.Message);
+        }
+
+        [TestMethod]
+        public async Task TestSearchMissingParameters()
+        {
+            var client = new MockClient("abc123");
+            var ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => client.Search(null));
+            Assert.AreEqual("Search query is required.", ex.Message);
+            ex = await Assert.ThrowsExceptionAsync<ArgumentException>(() => client.Search(""));
+            Assert.AreEqual("Search query is required.", ex.Message);
+        }
     }
 }

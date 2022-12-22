@@ -36,7 +36,20 @@ namespace HolidayEventApi
             return await request<GetEventsResponse>("events", queryParams);
         }
 
+        public async Task<GetEventInfoResponse> GetEventInfo(string id, int? start = null, int? end = null) {
+            if (String.IsNullOrEmpty(id))
+                throw new ArgumentException("Event id is required.");
+            var queryParams = HttpUtility.ParseQueryString(String.Empty);
+            queryParams.Add("id", id);
+            if (start != null) queryParams.Add("start", start.ToString());
+            if (end != null) queryParams.Add("end", end.ToString());
+
+            return await request<GetEventInfoResponse>("event", queryParams);
+        }
+
         public async Task<SearchResponse> Search(string query, bool adult = false) {
+            if (String.IsNullOrEmpty(query))
+                throw new ArgumentException("Search query is required.");
             var queryParams = HttpUtility.ParseQueryString(String.Empty);
             queryParams.Add("query", query);
             queryParams.Add("adult", adult.ToString().ToLower());
