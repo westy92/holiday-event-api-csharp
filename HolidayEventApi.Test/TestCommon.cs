@@ -126,7 +126,8 @@ namespace HolidayEventApi.Test
                     new KeyValuePair<string, string>("X-RateLimit-Limit-Month", "456"),
                 }, "application/json", getEventsDefault);
             var result = await client.GetEvents();
-            // TODO
+            Assert.AreEqual(123, result.RateLimit.RemainingMonth);
+            Assert.AreEqual(456, result.RateLimit.LimitMonth);
         }
     }
 }

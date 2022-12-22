@@ -55,7 +55,6 @@ namespace HolidayEventApi
                     {"limitMonth", response.Headers.TryGetValues("X-RateLimit-Limit-Month", out var limitMonth) ? limitMonth.First() : "0"},
                     {"remainingMonth", response.Headers.TryGetValues("X-RateLimit-Remaining-Month", out var remainingMonth) ? remainingMonth.First() : "0"},
                 };
-                // TODO add rate-limit
                 // TODO convert map to T instead of re-serializing
                 var newJson = JsonConvert.SerializeObject(map);
                 var result = JsonConvert.DeserializeObject<T>(newJson);

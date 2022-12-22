@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-public class SearchResponse
+public class SearchResponse: StandardResponse
 {
     [JsonProperty(Required = Required.Always)]
     public bool Adult { get; set; }
