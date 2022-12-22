@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json;
 
 namespace HolidayEventApi
 {
@@ -10,6 +12,11 @@ namespace HolidayEventApi
     {
         private HttpClient client;
         protected virtual HttpClient ClientFactory() => new HttpClient();
+        private static JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Include,
+            MissingMemberHandling = MissingMemberHandling.Error,
+        };
 
         public Client(string apiKey) {
             if (String.IsNullOrWhiteSpace(apiKey))
@@ -20,7 +27,7 @@ namespace HolidayEventApi
             client.DefaultRequestHeaders.Add("User-Agent", "HolidayApiDotNet/1.0.0"); // TODO auto version?
         }
 
-        public async Task<GetEventsResponse> GetEvents(string date = null, bool adult = false, string timezone = null) {
+        public async Task<GetEventsResponse> GetEvents(string? date = null, bool adult = false, string? timezone = null) {
             var queryParams = HttpUtility.ParseQueryString(String.Empty);
             queryParams.Add("adult", adult.ToString().ToLower());
             if (date != null) queryParams.Add("date", date);
@@ -38,10 +45,25 @@ namespace HolidayEventApi
         }
 
         private async Task<T> request<T>(string endpoint, NameValueCollection parameters) {
-            var url = endpoint + '?' + parameters;
-            var response = await client.GetAsync(url);
-            var result = await response.Content.ReadAsAsync<T>();
-            return result;
+            HttpResponseMessage? response = null;
+            Dictionary<string, dynamic> map = new Dictionary<string, dynamic>();
+            try {
+                var url = endpoint + '?' + parameters;
+                response = await client.GetAsync(url);
+                map = await response.Content.ReadAsAsync<Dictionary<string, dynamic>>();
+                // TODO add rate-limit
+                // TODO convert map to T instead of re-serializing
+                var newJson = JsonConvert.SerializeObject(map);
+                var result = JsonConvert.DeserializeObject<T>(newJson, jsonSettings);
+                return result;
+            } catch {
+                if (response?.IsSuccessStatusCode == true) {
+                    throw new SystemException("Unable to parse response.");
+                } else {
+                    var error = map.TryGetValue("error", out var value) ? value : response?.ReasonPhrase ?? "Unknown error";
+                    throw new SystemException(error);
+                }
+            }
         }
     }
 }

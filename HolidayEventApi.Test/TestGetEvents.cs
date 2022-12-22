@@ -23,7 +23,7 @@ namespace HolidayEventApi.Test
         [TestMethod]
         public async Task TestGetEventsWithDefaultParameters()
         {
-            var client = new MockClient("apikey123");
+            var client = new MockClient("abc123");
             MockClient.Handler
                 .When("https://api.apilayer.com/checkiday/events")
                 .Respond("application/json", getEventsDefault);
@@ -45,7 +45,7 @@ namespace HolidayEventApi.Test
         [TestMethod]
         public async Task TestGetEventsWithSetParameters()
         {
-            var client = new MockClient("apikey123");
+            var client = new MockClient("abc123");
             MockClient.Handler
                 .When("https://api.apilayer.com/checkiday/events")
                 .WithExactQueryString(new Dictionary<string,string> {
