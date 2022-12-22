@@ -21,12 +21,20 @@ namespace HolidayEventApi
         }
 
         public async Task<GetEventsResponse> GetEvents(string date = null, bool adult = false, string timezone = null) {
-            var query = HttpUtility.ParseQueryString(String.Empty);
-            query.Add("adult", adult.ToString().ToLower());
-            if (date != null) query.Add("date", date);
-            if (timezone != null) query.Add("timezone", timezone);
+            var queryParams = HttpUtility.ParseQueryString(String.Empty);
+            queryParams.Add("adult", adult.ToString().ToLower());
+            if (date != null) queryParams.Add("date", date);
+            if (timezone != null) queryParams.Add("timezone", timezone);
 
-            return await request<GetEventsResponse>("events", query);
+            return await request<GetEventsResponse>("events", queryParams);
+        }
+
+        public async Task<SearchResponse> Search(string query, bool adult = false) {
+            var queryParams = HttpUtility.ParseQueryString(String.Empty);
+            queryParams.Add("query", query);
+            queryParams.Add("adult", adult.ToString().ToLower());
+
+            return await request<SearchResponse>("search", queryParams);
         }
 
         private async Task<T> request<T>(string endpoint, NameValueCollection parameters) {
