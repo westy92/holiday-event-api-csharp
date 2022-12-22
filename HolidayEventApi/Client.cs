@@ -10,7 +10,6 @@ namespace HolidayEventApi
             BaseAddress = new Uri("https://api.apilayer.com/checkiday/"),
         };
 
-
         public Client(string apiKey) {
             if (String.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentException("Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.");
@@ -19,8 +18,12 @@ namespace HolidayEventApi
         }
 
         public async Task<GetEventsResponse> GetEvents() {
-            var response = await client.GetAsync("events");
-            var result = await response.Content.ReadAsAsync<GetEventsResponse>();
+            return await request<GetEventsResponse>("events");
+        }
+
+        private async Task<T> request<T>(string endpoint) {
+            var response = await client.GetAsync(endpoint);
+            var result = await response.Content.ReadAsAsync<T>();
             return result;
         }
     }
