@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
@@ -11,7 +12,11 @@ namespace HolidayEventApi
     public class Client
     {
         private HttpClient client;
-        protected virtual HttpClient ClientFactory() => new HttpClient();
+        protected virtual HttpClient ClientFactory() => new HttpClient(new HttpClientHandler 
+        {
+            AllowAutoRedirect = true, 
+            MaxAutomaticRedirections = 3,
+        });
 
         public Client(string apiKey) {
             if (String.IsNullOrWhiteSpace(apiKey))
@@ -46,16 +51,21 @@ namespace HolidayEventApi
                 var url = endpoint + '?' + parameters;
                 response = await client.GetAsync(url);
                 map = await response.Content.ReadAsAsync<Dictionary<string, dynamic>>();
+                map["rateLimit"] = new Dictionary<string, string>{
+                    {"limitMonth", response.Headers.TryGetValues("X-RateLimit-Limit-Month", out var limitMonth) ? limitMonth.First() : "0"},
+                    {"remainingMonth", response.Headers.TryGetValues("X-RateLimit-Remaining-Month", out var remainingMonth) ? remainingMonth.First() : "0"},
+                };
                 // TODO add rate-limit
                 // TODO convert map to T instead of re-serializing
                 var newJson = JsonConvert.SerializeObject(map);
                 var result = JsonConvert.DeserializeObject<T>(newJson);
                 return result;
-            } catch {
+            } catch (Exception e) {
                 if (response?.IsSuccessStatusCode == true) {
                     throw new SystemException("Unable to parse response.");
                 } else {
-                    var error = map.TryGetValue("error", out var value) ? value : response?.ReasonPhrase ?? "Unknown error";
+                    var error = map.TryGetValue("error", out var value) ? value : 
+                        response?.ReasonPhrase ?? response?.StatusCode.ToString() ?? e.Message;
                     throw new SystemException(error);
                 }
             }
