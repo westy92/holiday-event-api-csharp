@@ -71,7 +71,7 @@ namespace HolidayEventApi
                 // TODO convert map to T instead of re-serializing
                 var newJson = JsonConvert.SerializeObject(map);
                 var result = JsonConvert.DeserializeObject<T>(newJson);
-                return result;
+                return result!;
             } catch (Exception e) {
                 if (response?.IsSuccessStatusCode == true) {
                     throw new SystemException("Unable to parse response.");
