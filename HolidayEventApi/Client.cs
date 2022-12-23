@@ -25,6 +25,7 @@ namespace HolidayEventApi
             client.BaseAddress = new Uri("https://api.apilayer.com/checkiday/");
             client.DefaultRequestHeaders.Add("apikey", apiKey);
             client.DefaultRequestHeaders.Add("User-Agent", "HolidayApiDotNet/1.0.0"); // TODO auto version?
+            client.DefaultRequestHeaders.Add("X-Platform-Version", System.Environment.Version.ToString());
         }
 
         public async Task<GetEventsResponse> GetEvents(string? date = null, bool adult = false, string? timezone = null) {

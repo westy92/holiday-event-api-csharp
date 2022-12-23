@@ -45,6 +45,18 @@ namespace HolidayEventApi.Test
         }
 
         [TestMethod]
+        public async Task TestSendsPlatformVersion()
+        {
+            var client = new MockClient("abc123");
+            MockClient.Handler
+                .Expect("https://api.apilayer.com/checkiday/events")
+                .WithHeaders("X-Platform-Version", System.Environment.Version.ToString())
+                .Respond("application/json", getEventsDefault);
+            var result = await client.GetEvents();
+            MockClient.Handler.VerifyNoOutstandingExpectation();
+        }
+
+        [TestMethod]
         public async Task TestPassesAlongError()
         {
             var client = new MockClient("abc123");
