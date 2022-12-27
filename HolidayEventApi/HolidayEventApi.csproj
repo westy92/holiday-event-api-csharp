@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0-beta</Version>
+    <Version>1.0.0</Version>
     <LangVersion>8.0</LangVersion>
     <RootNamespace>HolidayEventApi</RootNamespace>
     <Nullable>enable</Nullable>
@@ -12,20 +12,30 @@
     <PackageTags>dotnet;holiday;holidays;public;federal;official;unofficial;date;month;year;day;calendar;api;holidayapi;list;event;occurrence;celebration;description;details;checkiday;international;national;world;popular;trusted;accurate;free;best</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/westy92/holiday-event-api-csharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/westy92/holiday-event-api-csharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright © 2022 Westy92 LLC</Copyright>
 
-    <!-- Include symbol files (*.pdb) in the built .nupkg -->
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <!-- Source Link (https://github.com/dotnet/sourcelink) -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="../README.md" pack="true" PackagePath="." />
     <None Include="../LICENSE" pack="true" PackagePath="." />
+    <None Include="../icon.png" pack="true" PackagePath="." />
   </ItemGroup>
 
 </Project>

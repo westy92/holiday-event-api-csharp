@@ -1,5 +1,6 @@
 # The Official Holiday and Event API for .NET
 
+[![Nuget](https://img.shields.io/nuget/v/HolidayEventApi)](https://www.nuget.org/packages/HolidayEventApi)
 [![Build Status](https://github.com/westy92/holiday-event-api-csharp/actions/workflows/github-actions.yml/badge.svg)](https://github.com/westy92/holiday-event-api-csharp/actions)
 [![Code Coverage](https://codecov.io/gh/westy92/holiday-event-api-csharp/branch/main/graph/badge.svg)](https://codecov.io/gh/westy92/holiday-event-api-csharp)
 [![Funding Status](https://img.shields.io/github/sponsors/westy92)](https://github.com/sponsors/westy92)
@@ -16,7 +17,7 @@ Access to the Holiday and Event API requires an API Key. You can get for one for
 ## Installation
 
 ```console
-$ TODO
+$ dotnet add package HolidayEventApi
 ```
 
 ## Example

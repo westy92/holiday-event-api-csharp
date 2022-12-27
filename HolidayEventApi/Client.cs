@@ -19,6 +19,11 @@ namespace HolidayEventApi
             MaxAutomaticRedirections = 3,
         });
 
+        /// <summary>
+        /// Creates a HolidayEventApi Client.
+        /// </summary>
+        /// <param name="apiKey">Your API Key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.</param>
+        /// <exception cref="ArgumentException">Thrown when the provided API Key is blank or missing.</exception>
         public Client(string apiKey) {
             if (String.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentException("Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.");
@@ -32,6 +37,13 @@ namespace HolidayEventApi
             client.DefaultRequestHeaders.Add("X-Platform-Version", System.Environment.Version.ToString());
         }
 
+        /// <summary>
+        /// Gets the Events for the provided Date.
+        /// </summary>
+        /// <param name="date">Whether or not to include adult events.</param>
+        /// <param name="adult">The date to get Events for.</param>
+        /// <param name="timezone">The timezone used to determine events on the given date.</param>
+        /// <returns>The Events.</returns>
         public async Task<GetEventsResponse> GetEvents(string? date = null, bool adult = false, string? timezone = null) {
             var queryParams = HttpUtility.ParseQueryString(String.Empty);
             queryParams.Add("adult", adult.ToString().ToLower());
@@ -41,6 +53,14 @@ namespace HolidayEventApi
             return await request<GetEventsResponse>("events", queryParams);
         }
 
+        /// <summary>
+        /// Get additional information for an Event.
+        /// </summary>
+        /// <param name="id">The Event id.</param>
+        /// <param name="start">The starting year for returned occurrences.</param>
+        /// <param name="end">The ending year for returned occurrences.</param>
+        /// <returns>The Event information.</returns>
+        /// <exception cref="ArgumentException">Thrown when the event id is missing or empty.</exception>
         public async Task<GetEventInfoResponse> GetEventInfo(string id, int? start = null, int? end = null) {
             if (String.IsNullOrEmpty(id))
                 throw new ArgumentException("Event id is required.");
@@ -52,6 +72,13 @@ namespace HolidayEventApi
             return await request<GetEventInfoResponse>("event", queryParams);
         }
 
+        /// <summary>
+        /// Searches for Events with the given criteria
+        /// </summary>
+        /// <param name="query">Your search query</param>
+        /// <param name="adult">Whether or not adult events should be included.</param>
+        /// <returns>The search results.</returns>
+        /// <exception cref="ArgumentException">Thrown when the search query is missing or empty.</exception>
         public async Task<SearchResponse> Search(string query, bool adult = false) {
             if (String.IsNullOrEmpty(query))
                 throw new ArgumentException("Search query is required.");
