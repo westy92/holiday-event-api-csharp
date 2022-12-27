@@ -38,7 +38,7 @@ namespace HolidayEventApi.Test
             var client = new MockClient("abc123");
             MockClient.Handler
                 .Expect("https://api.apilayer.com/checkiday/events")
-                .WithHeaders("User-Agent", "HolidayApiDotNet/1.0.0")
+                .WithHeaders("User-Agent", "HolidayApiDotNet/1.0.0-beta")
                 .Respond("application/json", getEventsDefault);
             var result = await client.GetEvents();
             MockClient.Handler.VerifyNoOutstandingExpectation();

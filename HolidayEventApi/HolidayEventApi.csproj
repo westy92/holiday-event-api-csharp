@@ -2,15 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.0.0-beta</Version>
     <LangVersion>8.0</LangVersion>
     <RootNamespace>HolidayEventApi</RootNamespace>
     <Nullable>enable</Nullable>
+
+    <Authors>westy92</Authors>
+    <Description>The Official Holiday and Event API for .NET</Description>
+    <PackageTags>dotnet;holiday;holidays;public;federal;official;unofficial;date;month;year;day;calendar;api;holidayapi;list;event;occurrence;celebration;description;details;checkiday;international;national;world;popular;trusted;accurate;free;best</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+    <!-- Include symbol files (*.pdb) in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" pack="true" PackagePath="." />
+    <None Include="../LICENSE" pack="true" PackagePath="." />
   </ItemGroup>
 
 </Project>

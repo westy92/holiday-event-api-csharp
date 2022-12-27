@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
@@ -24,7 +25,10 @@ namespace HolidayEventApi
             client = ClientFactory();
             client.BaseAddress = new Uri("https://api.apilayer.com/checkiday/");
             client.DefaultRequestHeaders.Add("apikey", apiKey);
-            client.DefaultRequestHeaders.Add("User-Agent", "HolidayApiDotNet/1.0.0"); // TODO auto version?
+            var version = Assembly.GetExecutingAssembly()
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                .InformationalVersion;
+            client.DefaultRequestHeaders.Add("User-Agent", "HolidayApiDotNet/" + version);
             client.DefaultRequestHeaders.Add("X-Platform-Version", System.Environment.Version.ToString());
         }
 
