@@ -5,6 +5,7 @@ using RichardSzalay.MockHttp;
 using System.Net;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace HolidayEventApi.Test
 {
@@ -35,10 +36,14 @@ namespace HolidayEventApi.Test
         [TestMethod]
         public async Task TestSendsUserAgent()
         {
+            var match = Array.Find(Assembly.GetExecutingAssembly().GetReferencedAssemblies(), i => i.Name == "HolidayEventApi");
+            var version = Assembly.Load(match)
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                .InformationalVersion;
             var client = new MockClient("abc123");
             MockClient.Handler
                 .Expect("https://api.apilayer.com/checkiday/events")
-                .WithHeaders("User-Agent", "HolidayApiDotNet/1.0.0-beta")
+                .WithHeaders("User-Agent", "HolidayApiDotNet/" + version)
                 .Respond("application/json", getEventsDefault);
             var result = await client.GetEvents();
             MockClient.Handler.VerifyNoOutstandingExpectation();
