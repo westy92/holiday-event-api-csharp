@@ -32,6 +32,12 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
+  <!-- Pinned transitive dependencies (default version is vulnerable) -->
+  <ItemGroup>
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="../README.md" pack="true" PackagePath="." />
     <None Include="../LICENSE" pack="true" PackagePath="." />
