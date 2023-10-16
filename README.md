@@ -75,3 +75,8 @@ namespace HolidayEventApi.Example
     }
 }
 ```
+
+## Publishing Updates
+
+1. Run `nuget pack`.
+1. Upload generated files to <https://www.nuget.org/packages/manage/upload>.
