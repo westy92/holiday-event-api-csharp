@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
@@ -12,7 +12,7 @@ namespace HolidayEventApi.Test
     [TestClass]
     public class TestCommon
     {
-        private static string getEventsDefault = File.ReadAllText("Data/getEvents-default.json");
+        private static readonly string getEventsDefault = File.ReadAllText("Data/getEvents-default.json");
 
         [TestInitialize()]
         public void BeforeEach()
@@ -29,7 +29,7 @@ namespace HolidayEventApi.Test
                 .Expect("https://api.apilayer.com/checkiday/events")
                 .WithHeaders("apikey", "abc123")
                 .Respond("application/json", getEventsDefault);
-            var result = await client.GetEvents();
+            await client.GetEvents();
             MockClient.Handler.VerifyNoOutstandingExpectation();
         }
 

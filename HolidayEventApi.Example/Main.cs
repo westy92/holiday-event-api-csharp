@@ -31,7 +31,7 @@ namespace HolidayEventApi.Example
                     // end: 2030
                 );
 
-                Console.WriteLine("The Event's hashtags are {0}.", String.Join(", ", eventInfo.Event.Hashtags));
+                Console.WriteLine("The Event's hashtags are {0}.", string.Join(", ", eventInfo.Event.Hashtags));
 
                 // Search for Events
                 var query = "pizza day";

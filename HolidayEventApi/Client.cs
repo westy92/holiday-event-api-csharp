@@ -12,7 +12,7 @@ namespace HolidayEventApi
 {
     public class Client
     {
-        private HttpClient client;
+        private readonly HttpClient client;
         protected virtual HttpClient ClientFactory() => new HttpClient(new HttpClientHandler 
         {
             AllowAutoRedirect = true, 
@@ -25,7 +25,7 @@ namespace HolidayEventApi
         /// <param name="apiKey">Your API Key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.</param>
         /// <exception cref="ArgumentException">Thrown when the provided API Key is blank or missing.</exception>
         public Client(string apiKey) {
-            if (String.IsNullOrWhiteSpace(apiKey))
+            if (string.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentException("Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.");
             client = ClientFactory();
             client.BaseAddress = new Uri("https://api.apilayer.com/checkiday/");
@@ -50,7 +50,7 @@ namespace HolidayEventApi
             if (date != null) queryParams.Add("date", date);
             if (timezone != null) queryParams.Add("timezone", timezone);
 
-            return await request<GetEventsResponse>("events", queryParams);
+            return await Request<GetEventsResponse>("events", queryParams);
         }
 
         /// <summary>
@@ -62,14 +62,14 @@ namespace HolidayEventApi
         /// <returns>The Event information.</returns>
         /// <exception cref="ArgumentException">Thrown when the event id is missing or empty.</exception>
         public async Task<GetEventInfoResponse> GetEventInfo(string id, int? start = null, int? end = null) {
-            if (String.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id))
                 throw new ArgumentException("Event id is required.");
             var queryParams = HttpUtility.ParseQueryString(String.Empty);
             queryParams.Add("id", id);
             if (start != null) queryParams.Add("start", start.ToString());
             if (end != null) queryParams.Add("end", end.ToString());
 
-            return await request<GetEventInfoResponse>("event", queryParams);
+            return await Request<GetEventInfoResponse>("event", queryParams);
         }
 
         /// <summary>
@@ -80,16 +80,16 @@ namespace HolidayEventApi
         /// <returns>The search results.</returns>
         /// <exception cref="ArgumentException">Thrown when the search query is missing or empty.</exception>
         public async Task<SearchResponse> Search(string query, bool adult = false) {
-            if (String.IsNullOrEmpty(query))
+            if (string.IsNullOrEmpty(query))
                 throw new ArgumentException("Search query is required.");
-            var queryParams = HttpUtility.ParseQueryString(String.Empty);
+            var queryParams = HttpUtility.ParseQueryString(string.Empty);
             queryParams.Add("query", query);
             queryParams.Add("adult", adult.ToString().ToLower());
 
-            return await request<SearchResponse>("search", queryParams);
+            return await Request<SearchResponse>("search", queryParams);
         }
 
-        private async Task<T> request<T>(string endpoint, NameValueCollection parameters) {
+        private async Task<T> Request<T>(string endpoint, NameValueCollection parameters) {
             HttpResponseMessage? response = null;
             Dictionary<string, dynamic> map = new Dictionary<string, dynamic>();
             try {

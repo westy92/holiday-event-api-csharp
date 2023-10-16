@@ -12,8 +12,8 @@ namespace HolidayEventApi.Test
     [TestClass]
     public class TestGetEventInfo
     {
-        private static string getEventInfoDefault = File.ReadAllText("Data/getEventInfo.json");
-        private static string getEventInfoParameters = File.ReadAllText("Data/getEventInfo-parameters.json");
+        private static readonly string getEventInfoDefault = File.ReadAllText("Data/getEventInfo.json");
+        private static readonly string getEventInfoParameters = File.ReadAllText("Data/getEventInfo-parameters.json");
 
         [TestInitialize()]
         public void BeforeEach()
@@ -34,6 +34,7 @@ namespace HolidayEventApi.Test
                 .Respond("application/json", getEventInfoDefault);
             var result = await client.GetEventInfo("f90b893ea04939d7456f30c54f68d7b4");
             Assert.AreEqual(2, result.Event.Hashtags.Count);
+            result.Event.Tags.Should().BeEquivalentTo(new List<Tag> { new Tag { Name = "Pets & Animals" } });
         }
 
         [TestMethod]

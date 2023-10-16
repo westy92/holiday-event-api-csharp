@@ -8,6 +8,7 @@
 Industry-leading Holiday and Event API for .NET. Over 5,000 holidays and thousands of descriptions. Trusted by the World’s leading companies. Built by developers for developers since 2011.
 
 ## Supported .NET Versions
+
 Latest version of the the Holiday and Event API supports all actively-supported [.NET](https://endoflife.date/dotnet) and [.NET Framework](https://endoflife.date/dotnetfx) versions.
 
 ## Authentication
@@ -17,7 +18,7 @@ Access to the Holiday and Event API requires an API Key. You can get for one for
 ## Installation
 
 ```console
-$ dotnet add package HolidayEventApi
+dotnet add package HolidayEventApi
 ```
 
 ## Example
@@ -56,7 +57,7 @@ namespace HolidayEventApi.Example
                     // end: 2030
                 );
 
-                Console.WriteLine("The Event's hashtags are {0}.", String.Join(", ", eventInfo.Event.Hashtags));
+                Console.WriteLine("The Event's hashtags are {0}.", string.Join(", ", eventInfo.Event.Hashtags));
 
                 // Search for Events
                 var query = "pizza day";

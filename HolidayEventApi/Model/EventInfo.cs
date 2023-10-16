@@ -45,6 +45,10 @@ public class EventInfo: EventSummary
     /// </summary>
     public List<FounderInfo>? Founders { get; set; }
     /// <summary>
+    /// The Event's tags
+    /// </summary>
+    public List<Tag>? Tags { get; set; }
+    /// <summary>
     /// The Event Occurrences (when it occurs)
     /// </summary>
     public List<Occurrence>? Occurrences { get; set; }

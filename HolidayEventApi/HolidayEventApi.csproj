@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <LangVersion>8.0</LangVersion>
     <RootNamespace>HolidayEventApi</RootNamespace>
     <Nullable>enable</Nullable>
@@ -16,7 +16,7 @@
     <PackageProjectUrl>https://github.com/westy92/holiday-event-api-csharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/westy92/holiday-event-api-csharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Copyright>Copyright © 2022 Westy92 LLC</Copyright>
+    <Copyright>Copyright © 2023 Westy92 LLC</Copyright>
 
     <!-- Source Link (https://github.com/dotnet/sourcelink) -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>

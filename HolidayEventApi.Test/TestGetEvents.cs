@@ -10,8 +10,8 @@ namespace HolidayEventApi.Test
     [TestClass]
     public class TestGetEvents
     {
-        private static string getEventsDefault = File.ReadAllText("Data/getEvents-default.json");
-        private static string getEventsParameters = File.ReadAllText("Data/getEvents-parameters.json");
+        private static readonly string getEventsDefault = File.ReadAllText("Data/getEvents-default.json");
+        private static readonly string getEventsParameters = File.ReadAllText("Data/getEvents-parameters.json");
 
         [TestInitialize()]
         public void BeforeEach()

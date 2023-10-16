@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 /// <summary>
 /// Formatted Text
 /// </summary>

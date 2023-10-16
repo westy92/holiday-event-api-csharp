@@ -12,8 +12,8 @@ namespace HolidayEventApi.Test
     [TestClass]
     public class TestSearch
     {
-        private static string searchDefault = File.ReadAllText("Data/search-default.json");
-        private static string searchParameters = File.ReadAllText("Data/search-parameters.json");
+        private static readonly string searchDefault = File.ReadAllText("Data/search-default.json");
+        private static readonly string searchParameters = File.ReadAllText("Data/search-parameters.json");
 
         [TestInitialize()]
         public void BeforeEach()
